@@ -13,7 +13,6 @@ dotenv.config();
 connectDB();
 
 const app = express();
-const server = http.createServer(app);
 
 // Configure CORS for HTTP requests
 app.use(cors({
@@ -22,12 +21,18 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'] // Allowed headers
 }));
 
-// Middleware and routes
+// Middleware to parse JSON
 app.use(express.json());
+
+// Define routes
 app.use('/api/auth', authRoutes);
 app.use('/api/documents', documentRoutes);
 
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+// Define a route for the root URL
+app.get('/', (req, res) => {
+    res.send('Welcome to the API');
 });
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

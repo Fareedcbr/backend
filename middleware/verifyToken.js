@@ -1,4 +1,3 @@
-// filepath: /c:/Git Hub/intership/Backend/middleware/verifyToken.js
 const jwt = require('jsonwebtoken');
 
 function verifyToken(req, res, next) {
