@@ -3,6 +3,8 @@ const express = require('express');
 const http = require('http');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const fetch = require('node-fetch'); // Adding this line for fetch API usage
+
 // importing db config
 const connectDB = require('./config/db');
 // importing routes
@@ -31,6 +33,17 @@ app.use('/api/documents', documentRoutes);
 // Define a route for the root URL
 app.get('/', (req, res) => {
     res.send('Welcome to the API');
+});
+
+// Call the documents API endpoint
+app.get('/getDocuments', (req, res) => {
+    fetch('http://localhost:5000/api/documents')
+        .then(response => response.json())
+        .then(data => res.json(data))
+        .catch(error => {
+            console.error('Error:', error);
+            res.status(500).send('Error fetching documents');
+        });
 });
 
 const PORT = process.env.PORT || 5000;
